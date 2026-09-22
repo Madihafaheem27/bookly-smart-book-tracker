@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Bookly - a smart personal book tracker with mood and AI recommendations">
+  <title>Bookly — Smart Book Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-icon">📚</div><span>Bookly</span></div>
+    <nav aria-label="Main navigation">
+      <button class="nav-item active" data-section="dashboard"><span>🏠</span>Dashboard</button>
+      <button class="nav-item" data-section="library"><span>📚</span>My Library</button>
+      <button class="nav-item" data-section="mood"><span>🎭</span>Mood Match</button>
+      <button class="nav-item" data-section="ai"><span>🤖</span>AI Recommendations</button>
+      <button class="nav-item" data-section="statistics"><span>📊</span>Statistics</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="goal-box">
+        <div class="goal-icon">🎯</div>
+        <h4>Reading Goal</h4>
+        <p><span id="goalProgress">0</span> / <span id="goalTarget">20</span> books</p>
+        <div class="progress"><div class="progress-bar" id="goalBar"></div></div>
+        <button id="changeGoalBtn">Change Goal</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div>
+        <p class="small-text">Welcome back 👋</p>
+        <h1>Your Reading Space</h1>
+      </div>
+      <div class="top-actions">
+        <label class="search-box">
+          <span>🔍</span>
+          <input id="globalSearch" type="search" placeholder="Search books..." autocomplete="off">
+        </label>
+        <button class="icon-button" id="aiShortcut" title="AI recommendations">🤖</button>
+        <div class="avatar" aria-label="Profile">M</div>
+      </div>
+    </header>
+
+    <section id="dashboard" class="page-section active-section">
+      <div class="hero">
+        <div class="hero-text">
+          <span class="badge">✨ Your personal reading assistant</span>
+          <h2>Discover your next <span>favorite story.</span></h2>
+          <p>Track your books, explore recommendations, and find the perfect read for your mood.</p>
+          <div class="hero-buttons">
+            <button class="primary-btn" id="addBookHero">+ Add a Book</button>
+            <button class="secondary-btn" id="moodHero">🎭 Find by Mood</button>
+          </div>
+        </div>
+        <div class="hero-books" aria-hidden="true">
+          <div class="floating-book book-one"><div class="book-cover purple">The<br>Silent<br>Patient</div></div>
+          <div class="floating-book book-two"><div class="book-cover orange">Atomic<br>Habits</div></div>
+          <div class="floating-book book-three"><div class="book-cover green">The<br>Alchemist</div></div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon purple-bg">📚</div><div><p>Total Books</p><h3 id="totalBooks">0</h3></div></div>
+        <div class="stat-card"><div class="stat-icon blue-bg">📖</div><div><p>Currently Reading</p><h3 id="readingBooks">0</h3></div></div>
+        <div class="stat-card"><div class="stat-icon green-bg">✓</div><div><p>Completed</p><h3 id="completedBooks">0</h3></div></div>
+        <div class="stat-card"><div class="stat-icon yellow-bg">⭐</div><div><p>Favorites</p><h3 id="favoriteBooks">0</h3></div></div>
+      </div>
+
+      <div class="section-header">
+        <div><h2>Currently Reading</h2><p>Continue where you left off</p></div>
+        <button class="text-btn" data-go="library">View Library →</button>
+      </div>
+      <div id="currentlyReading" class="book-grid"></div>
+
+      <div class="ai-banner">
+        <div class="ai-banner-icon">🤖</div>
+        <div class="ai-banner-text"><h3>Not sure what to read?</h3><p>Let our smart recommendation tool find something you'll love.</p></div>
+        <button data-go="ai">Get Recommendations →</button>
+      </div>
+    </section>
+
+    <section id="library" class="page-section">
+      <div class="page-title">
+        <div><span class="badge">📚 Your collection</span><h2>My Library</h2><p>Manage all your books in one place.</p></div>
+        <button class="primary-btn" id="addBookLibrary">+ Add Book</button>
+      </div>
+      <div class="filter-row" id="filterRow">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="Want to Read">Want to Read</button>
+        <button class="filter-btn" data-filter="Reading">Reading</button>
+        <button class="filter-btn" data-filter="Completed">Completed</button>
+        <button class="filter-btn" data-filter="Favorites">❤️ Favorites</button>
+      </div>
+      <div id="libraryGrid" class="library-grid"></div>
+    </section>
+
+    <section id="mood" class="page-section">
+      <div class="page-title"><div><span class="badge">🎭 Mood Match</span><h2>What are you in the mood for?</h2><p>Select a mood and discover books that match it.</p></div></div>
+      <div class="mood-grid">
+        <button class="mood-card" data-mood="happy"><span>😊</span><strong>Happy</strong><small>Feel-good stories</small></button>
+        <button class="mood-card" data-mood="romantic"><span>💖</span><strong>Romantic</strong><small>Love & relationships</small></button>
+        <button class="mood-card" data-mood="mysterious"><span>🕵️</span><strong>Mysterious</strong><small>Secrets & suspense</small></button>
+        <button class="mood-card" data-mood="motivated"><span>🔥</span><strong>Motivated</strong><small>Growth & success</small></button>
+        <button class="mood-card" data-mood="calm"><span>🌿</span><strong>Calm</strong><small>Peaceful reading</small></button>
+        <button class="mood-card" data-mood="adventure"><span>🌎</span><strong>Adventure</strong><small>Exciting journeys</small></button>
+      </div>
+      <div id="moodResult" class="recommendation-result empty-mood"><span>🎭</span><h3>Choose a mood</h3><p>Your personalized book recommendations will appear here.</p></div>
+    </section>
+
+    <section id="ai" class="page-section">
+      <div class="ai-page">
+        <div class="ai-header"><div class="ai-big-icon">🤖</div><span class="badge">AI POWERED</span><h2>Your Smart Reading Assistant</h2><p>Tell us what you're looking for and we'll suggest books based on your preferences.</p></div>
+        <form class="ai-form" id="aiForm">
+          <label for="aiGenre">What kind of book are you looking for?</label>
+          <select id="aiGenre">
+            <option value="fiction">Fiction</option><option value="mystery">Mystery</option><option value="romance">Romance</option><option value="selfhelp">Self Help</option><option value="fantasy">Fantasy</option><option value="adventure">Adventure</option>
+          </select>
+          <label for="aiMood">How do you want to feel?</label>
+          <select id="aiMood">
+            <option value="happy">Happy</option><option value="motivated">Motivated</option><option value="curious">Curious</option><option value="relaxed">Relaxed</option><option value="excited">Excited</option>
+          </select>
+          <label>Reading level</label>
+          <div class="level-buttons" id="levelButtons">
+            <button type="button" data-level="Easy">Easy</button><button type="button" class="selected" data-level="Medium">Medium</button><button type="button" data-level="Advanced">Advanced</button>
+          </div>
+          <button class="ai-generate-btn" type="submit">✨ Generate Recommendations</button>
+          <p class="form-note">If no AI key is configured, Bookly uses built-in recommendations so the feature still works.</p>
+        </form>
+        <div id="aiResult" class="ai-results"></div>
+      </div>
+    </section>
+
+    <section id="statistics" class="page-section">
+      <div class="page-title"><div><span class="badge">📊 Your progress</span><h2>Reading Statistics</h2><p>See how your reading journey is going.</p></div></div>
+      <div class="statistics-container">
+        <div class="big-stat"><span>📚</span><h3 id="statTotal">0</h3><p>Total Books</p></div>
+        <div class="big-stat"><span>✓</span><h3 id="statCompleted">0</h3><p>Books Completed</p></div>
+        <div class="big-stat"><span>📖</span><h3 id="statReading">0</h3><p>Currently Reading</p></div>
+        <div class="big-stat"><span>⭐</span><h3 id="statFavorites">0</h3><p>Favorite Books</p></div>
+      </div>
+      <div class="progress-section"><h3>Reading Progress</h3><div class="large-progress"><div id="largeProgress"></div></div><p id="progressText">Start adding books to track your reading progress.</p></div>
+    </section>
+  </main>
+
+  <div id="bookModal" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="close-btn" id="closeModal" aria-label="Close">×</button>
+      <h2 id="modalTitle">Add a New Book</h2><p>Add a book to your personal library.</p>
+      <form id="bookForm">
+        <input type="hidden" id="bookId">
+        <label for="bookTitle">Book Title</label><input id="bookTitle" required maxlength="120" placeholder="e.g. The Alchemist">
+        <label for="bookAuthor">Author</label><input id="bookAuthor" required maxlength="100" placeholder="e.g. Paulo Coelho">
+        <label for="bookGenre">Genre</label>
+        <select id="bookGenre"><option>Fiction</option><option>Mystery</option><option>Romance</option><option>Self Help</option><option>Fantasy</option><option>Adventure</option><option>Other</option></select>
+        <label for="bookStatus">Status</label><select id="bookStatus"><option>Want to Read</option><option>Reading</option><option>Completed</option></select>
+        <label for="bookRating">Rating</label><select id="bookRating"><option value="0">No rating</option><option value="1">⭐</option><option value="2">⭐⭐</option><option value="3">⭐⭐⭐</option><option value="4">⭐⭐⭐⭐</option><option value="5">⭐⭐⭐⭐⭐</option></select>
+        <button class="primary-btn full-btn" type="submit" id="saveBookBtn">Add to Library</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js" defer></script>
+</body>
+</html>

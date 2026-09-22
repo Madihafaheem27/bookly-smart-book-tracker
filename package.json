@@ -1,0 +1,28 @@
+{
+  "name": "bookly-smart-book-tracker",
+  "version": "2.0.0",
+  "description": "AI-enhanced personal book tracker built with HTML, CSS, JavaScript and Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["book-tracker", "ai", "javascript", "express"],
+  "author": "Madiha Faheem",
+  "license": "ISC",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.126.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.1"
+  }
+}
