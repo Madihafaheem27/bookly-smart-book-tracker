@@ -9,7 +9,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json({ limit: "20kb" }));
-app.use(express.static(__dirname));
+
+// Serve CSS, JavaScript, images, and other static files
+app.use(
+  express.static(__dirname, {
+    index: false
+  })
+);
 
 const fallbackRecommendations = {
   fiction: [
@@ -246,10 +252,12 @@ app.post("/api/recommend", async (req, res) => {
 });
 
 /* =========================
-   FRONTEND FALLBACK
+   FRONTEND
 ========================= */
 
-app.use((req, res) => {
+// Only "/" should return index.html.
+// CSS and JS are handled by express.static above.
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
@@ -260,4 +268,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Bookly is running at http://localhost:${PORT}`);
 });
-
